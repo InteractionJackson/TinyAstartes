@@ -1425,8 +1425,28 @@
         </div>
       </div>
 
-      <p class="section-label">The Four Phases</p>
+      <p class="section-label">The Six Phases</p>
       <div class="phase-list" id="phase-list">
+
+        <div class="phase-card" id="phase-command">
+          <div class="phase-header" onclick="togglePhase('command')">
+            <div class="phase-icon shoot">📋</div>
+            <div>
+              <div class="phase-title">Command Phase</div>
+              <div class="phase-subtitle">Pick an order at the start of your turn</div>
+            </div>
+            <span class="phase-chevron">▼</span>
+          </div>
+          <div class="phase-body" id="phase-body-command">
+            <div class="phase-body-inner">
+              <p>At the start of your turn, pick one command order. Each order can only be used <strong>once per game</strong>.</p>
+              <p class="mt-3"><strong>Advance</strong> — move up to 9 inches this turn instead of 6.</p>
+              <p><strong>Focus Fire</strong> — re-roll any hit rolls of 1 during shooting this turn.</p>
+              <p><strong>Hold the Line</strong> — your saves are 3+ instead of 4+ this turn.</p>
+              <p><strong>Charge!</strong> — add 2 to all charge rolls this turn.</p>
+            </div>
+          </div>
+        </div>
 
         <div class="phase-card" id="phase-move">
           <div class="phase-header" onclick="togglePhase('move')">
@@ -1510,26 +1530,6 @@
                 <div class="roll-step">Save 4+</div>
               </div>
               <p class="mt-3">Both players fight — the attacker goes first, then the defender strikes back! Even if a model is killed, it still gets to fight before it's removed.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="phase-card" id="phase-command">
-          <div class="phase-header" onclick="togglePhase('command')">
-            <div class="phase-icon shoot">📋</div>
-            <div>
-              <div class="phase-title">Command Phase</div>
-              <div class="phase-subtitle">Pick an order at the start of your turn</div>
-            </div>
-            <span class="phase-chevron">▼</span>
-          </div>
-          <div class="phase-body" id="phase-body-command">
-            <div class="phase-body-inner">
-              <p>At the start of your turn, pick one command order. Each order can only be used <strong>once per game</strong>.</p>
-              <p class="mt-3"><strong>Advance</strong> — move up to 9 inches this turn instead of 6.</p>
-              <p><strong>Focus Fire</strong> — re-roll any hit rolls of 1 during shooting this turn.</p>
-              <p><strong>Hold the Line</strong> — your saves are 3+ instead of 4+ this turn.</p>
-              <p><strong>Charge!</strong> — add 2 to all charge rolls this turn.</p>
             </div>
           </div>
         </div>
