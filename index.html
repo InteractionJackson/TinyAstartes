@@ -462,6 +462,93 @@
     flex-shrink: 0;
   }
 
+  /* ===================== SCREEN 2b — SETUP ===================== */
+  .setup-content {
+    padding: 20px 16px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .setup-hero {
+    text-align: center;
+    padding: 8px 0 4px;
+  }
+  .setup-hero-icon {
+    font-size: 56px;
+    line-height: 1;
+    margin-bottom: 10px;
+    display: block;
+  }
+  .setup-step-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .setup-instruction-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+  }
+  .setup-instruction-text {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--text-primary);
+    font-weight: 400;
+  }
+  .setup-instruction-text strong {
+    font-weight: 700;
+    color: var(--navy);
+  }
+
+  .setup-checklist {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .setup-check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 12px 14px;
+    box-shadow: var(--shadow-sm);
+  }
+  .setup-check-icon {
+    font-size: 16px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .setup-check-text {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    font-weight: 500;
+  }
+
+  .setup-cta {
+    padding: 16px 16px 32px;
+    margin-top: auto;
+  }
+
+  @media (min-width: 600px) {
+    .setup-content { padding: 24px 24px 8px; }
+    .setup-cta { padding: 16px 24px 36px; }
+    .setup-hero-icon { font-size: 64px; }
+    .setup-instruction-text { font-size: 17px; }
+  }
+  @media (min-width: 768px) {
+    .setup-content { padding: 28px 32px 8px; }
+    .setup-cta { padding: 16px 32px 40px; }
+  }
+
   /* ===================== SCREEN 3 — BATTLE ===================== */
   #screen-battle {
     padding-bottom: 40px;
@@ -1165,7 +1252,7 @@
 
     <div class="modes-content">
       <div class="mode-cards">
-        <div class="mode-card" onclick="startBattle('los')">
+        <div class="mode-card" onclick="showSetup('los')">
           <div class="mode-emoji">💀</div>
           <div class="mode-info">
             <div class="mode-name">Last One Standing</div>
@@ -1173,7 +1260,7 @@
           </div>
           <div class="mode-arrow">›</div>
         </div>
-        <div class="mode-card" onclick="startBattle('htl')">
+        <div class="mode-card" onclick="showSetup('htl')">
           <div class="mode-emoji">🚩</div>
           <div class="mode-info">
             <div class="mode-name">Hold the Line</div>
@@ -1181,7 +1268,7 @@
           </div>
           <div class="mode-arrow">›</div>
         </div>
-        <div class="mode-card" onclick="startBattle('siege')">
+        <div class="mode-card" onclick="showSetup('siege')">
           <div class="mode-emoji">🏰</div>
           <div class="mode-info">
             <div class="mode-name">Siege</div>
@@ -1190,6 +1277,36 @@
           <div class="mode-arrow">›</div>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- ==================== SCREEN 2b: SETUP ==================== -->
+  <div id="screen-setup" class="screen">
+    <div class="modes-header">
+      <div class="back-btn" onclick="showScreen('modes')">←</div>
+      <div class="modes-header-text">
+        <h2 id="setup-mode-name">Setup</h2>
+        <p>Get the table ready</p>
+      </div>
+    </div>
+
+    <div class="setup-content">
+      <div class="setup-hero">
+        <div class="setup-hero-icon" id="setup-hero-icon">💀</div>
+        <div class="setup-step-label">Before you begin</div>
+      </div>
+
+      <div class="setup-instruction-card">
+        <div class="setup-instruction-text" id="setup-instruction-text"></div>
+      </div>
+
+      <div class="setup-checklist" id="setup-checklist"></div>
+    </div>
+
+    <div class="setup-cta">
+      <button class="btn btn-navy btn-block btn-lg" onclick="startBattle()">
+        Start Battle →
+      </button>
     </div>
   </div>
 
@@ -1457,10 +1574,64 @@ function togglePhase(id) {
 }
 
 // ============================
+// SETUP SCREEN
+// ============================
+const SETUP_META = {
+  los: {
+    icon: '💀',
+    instruction: `<strong>Pick your sides.</strong> Set up your models at opposite ends of the table. Try to keep the numbers even. When you're ready, tap Start Battle.`,
+    checks: [
+      { icon: '🪖', text: 'Both players pick their models' },
+      { icon: '↔️', text: 'Set up at opposite ends of the table' },
+      { icon: '⚖️', text: 'Keep model counts even' }
+    ]
+  },
+  htl: {
+    icon: '🚩',
+    instruction: `<strong>Place three objective markers</strong> before anyone sets up. Spread them out — one on each side and one in the middle works well. Then both players set up at opposite ends as normal. When you're ready, tap Start Battle.`,
+    checks: [
+      { icon: '📍', text: 'Place one objective on the left' },
+      { icon: '📍', text: 'Place one objective in the centre' },
+      { icon: '📍', text: 'Place one objective on the right' },
+      { icon: '↔️', text: 'Both players set up at opposite ends' }
+    ]
+  },
+  siege: {
+    icon: '🏰',
+    instruction: `<strong>Decide who is attacking and who is defending.</strong> The defender places three objectives anywhere in their half, then sets up their models there too. The attacker sets up along the opposite edge. Give the attacker 25% more models to keep things fair — if the defender has 8 models, the attacker gets 10. When you're ready, tap Start Battle.`,
+    checks: [
+      { icon: '🛡️', text: 'Defender places 3 objectives in their half' },
+      { icon: '🛡️', text: 'Defender sets up their models in their half' },
+      { icon: '⚔️', text: 'Attacker sets up along the opposite edge' },
+      { icon: '➕', text: 'Give the attacker ~25% more models' }
+    ]
+  }
+};
+
+function showSetup(mode) {
+  state.mode = mode;
+  const meta = SETUP_META[mode];
+  const modeMeta = MODE_META[mode];
+
+  document.getElementById('setup-mode-name').textContent = modeMeta.label;
+  document.getElementById('setup-hero-icon').textContent = meta.icon;
+  document.getElementById('setup-instruction-text').innerHTML = meta.instruction;
+
+  const checklist = document.getElementById('setup-checklist');
+  checklist.innerHTML = meta.checks.map(c => `
+    <div class="setup-check-item">
+      <span class="setup-check-icon">${c.icon}</span>
+      <span class="setup-check-text">${c.text}</span>
+    </div>`).join('');
+
+  showScreen('setup');
+}
+
+// ============================
 // BATTLE INIT
 // ============================
-function startBattle(mode) {
-  state.mode = mode;
+function startBattle() {
+  const mode = state.mode;
   state.turn = 1;
   state.players[0].kills = 0;
   state.players[0].score = 0;
@@ -1944,7 +2115,7 @@ function resolveTiebreak() {
 // PLAY AGAIN
 // ============================
 function playAgain() {
-  startBattle(state.mode);
+  startBattle();
 }
 
 // ============================
