@@ -1369,9 +1369,9 @@ function renderSiege() {
           <div class="objective-name">${obj.name}</div>
         </div>
         <div class="objective-toggle">
-          <button class="toggle-btn ${obj.holder === 'attacker' ? 'active-attacker' : ''}" onclick="setObjHolder('siege', ${i}, 'attacker')">⚔️ Attacker</button>
-          <button class="toggle-btn ${obj.holder === 'contested' ? 'active-contested' : ''}" onclick="setObjHolder('siege', ${i}, 'contested')">Contested</button>
-          <button class="toggle-btn ${obj.holder === 'defender' ? 'active-defender' : ''}" onclick="setObjHolder('siege', ${i}, 'defender')">🛡️ Defender</button>
+          <button class="toggle-btn ${obj.holder === 'attacker' ? 'active-attacker' : ''}" onclick="setObjHolder('siege', ${i}, 'attacker')" id="siege-toggle-${i}-attacker">⚔️ Attacker</button>
+          <button class="toggle-btn ${obj.holder === 'contested' ? 'active-contested' : ''}" onclick="setObjHolder('siege', ${i}, 'contested')" id="siege-toggle-${i}-contested">Contested</button>
+          <button class="toggle-btn ${obj.holder === 'defender' ? 'active-defender' : ''}" onclick="setObjHolder('siege', ${i}, 'defender')" id="siege-toggle-${i}-defender">🛡️ Defender</button>
         </div>
       </div>`;
   });
